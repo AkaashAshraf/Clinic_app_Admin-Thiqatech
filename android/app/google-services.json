@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "477978394909",
+    "project_id": "dentist-7bbb9",
+    "storage_bucket": "dentist-7bbb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477978394909:android:ee5b2ed2f2efe5018fe1f4",
+        "android_client_info": {
+          "package_name": "com.admin.thiqatech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "477978394909-b6jpnsgviqivvji0fr5uibj5d194ip3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCcL6zOT-xtWE-ktOprzw2lX976BsK59M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "477978394909-b6jpnsgviqivvji0fr5uibj5d194ip3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477978394909:android:184d8b3f6581578a8fe1f4",
+        "android_client_info": {
+          "package_name": "com.patient.thiqatech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "477978394909-b6jpnsgviqivvji0fr5uibj5d194ip3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCcL6zOT-xtWE-ktOprzw2lX976BsK59M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "477978394909-b6jpnsgviqivvji0fr5uibj5d194ip3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
