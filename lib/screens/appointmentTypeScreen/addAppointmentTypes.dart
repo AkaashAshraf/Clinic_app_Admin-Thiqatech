@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:demoadmin/model/appointmentTypeModel.dart';
 import 'package:demoadmin/service/appointmentTypeService.dart';
 import 'package:demoadmin/service/uploadImageService.dart';
@@ -15,7 +13,6 @@ import 'package:demoadmin/utilities/dialogBox.dart';
 import 'package:demoadmin/utilities/imagePicker.dart';
 import 'package:demoadmin/utilities/toastMsg.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:time_range_picker/time_range_picker.dart';
 
 class AddAppointmentTypesPage extends StatefulWidget {
   final disableStartTime;
@@ -73,14 +70,12 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
       // disableStartTimeMin =
       //     int.parse((widget.disableStartTime).substring(3, 5));
       // disableEndTimeMin = int.parse((widget.disableEndTime).substring(3, 5));
-      
-       _openingTimeController.text = '08:00';
+
+      _openingTimeController.text = '08:00';
       _closingTimeController.text = '17:00';
-      disableStartTimeHour =
-          00;
+      disableStartTimeHour = 00;
       disableEndTimeHour = 00;
-      disableStartTimeMin =
-          00;
+      disableStartTimeMin = 00;
       disableEndTimeMin = 00;
     });
   }
@@ -132,8 +127,10 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
                     _subTitleArInputField(),
                     _chargesInputField(),
                     _timeTakeInputField(),
-                    _timingInputField("Opening Time", _openingTimeController),
-                    _timingInputField("Closing Time", _closingTimeController),
+                    _timingInputField(
+                        "Opening Time", _openingTimeController, true),
+                    _timingInputField(
+                        "Closing Time", _closingTimeController, false),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -353,7 +350,7 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
     }, TextInputType.text, 1);
   }
 
-   Widget _subTitleArInputField() {
+  Widget _subTitleArInputField() {
     return InputFields.commonInputField(
         _subTitleArController, "Appointment Subtitle Ar", (item) {
       return item.length > 0 ? null : "Enter Appointment Subtitle in Arabic";
@@ -373,9 +370,10 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
       return item.length > 0 ? null : "Enter Appointment Name in English";
     }, TextInputType.text, 1);
   }
+
   Widget _nameArInputField() {
-    return InputFields.commonInputField(_titleArController, "Appointment Name Ar",
-        (item) {
+    return InputFields.commonInputField(
+        _titleArController, "Appointment Name Ar", (item) {
       return item.length > 0 ? null : "Enter Appointment Name in Arabic";
     }, TextInputType.text, 1);
   }
@@ -392,14 +390,14 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
     }, TextInputType.number, 1);
   }
 
-  Widget _timingInputField(title, controller) {
+  Widget _timingInputField(title, controller, bool openingTime) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: TextFormField(
         readOnly: true,
         controller: controller,
         keyboardType: TextInputType.text,
-        onTap: _timePicker,
+        onTap: openingTime ? _openTimePicker : _closeTimePicker,
         decoration: InputDecoration(
             // prefixIcon:Icon(Icons.,),
             labelText: title,
@@ -413,34 +411,56 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
     );
   }
 
-  void _timePicker() async {
-    log('time picker');
-    TimeRange result = await showTimeRangePicker(
-      disabledTime: TimeRange(
-          startTime:
-              TimeOfDay(hour: disableEndTimeHour!, minute: disableEndTimeMin!),
-          endTime: TimeOfDay(
-              hour: disableStartTimeHour!, minute: disableStartTimeMin!)),
-      start: TimeOfDay(
-          hour: int.parse(_openingTimeController.text.substring(0, 2)),
-          minute: int.parse(_openingTimeController.text.substring(3, 5))),
-      end: TimeOfDay(
-          hour: int.parse(_closingTimeController.text.substring(0, 2)),
-          minute: int.parse(_closingTimeController.text.substring(3, 5))),
-      strokeColor: primaryColor,
-      handlerColor: primaryColor,
-      selectedColor: primaryColor,
+  void _openTimePicker() async {
+    final newTime = await showTimePicker(
       context: context,
+      initialTime: TimeOfDay(hour: 7, minute: 15),
     );
-
     setState(() {
-      if (result.toString().substring(17, 22) ==
-          result.toString().substring(37, 42)) {
-        ToastMsg.showToastMsg("please select different times");
-      } else {
-        _openingTimeController.text = result.toString().substring(17, 22);
-        _closingTimeController.text = result.toString().substring(37, 42);
-      }
+      _openingTimeController.text =
+          newTime == null ? '' : newTime.format(context);
     });
   }
+
+  void _closeTimePicker() async {
+    final newTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: 7, minute: 15),
+    );
+    setState(() {
+      _closingTimeController.text =
+          newTime == null ? '' : newTime.format(context);
+    });
+  }
+
+  // void _timePicker() async {
+  //   log('time picker');
+  //   TimeRange result = await showTimeRangePicker(
+  //     disabledTime: TimeRange(
+  //         startTime:
+  //             TimeOfDay(hour: disableEndTimeHour!, minute: disableEndTimeMin!),
+  //         endTime: TimeOfDay(
+  //             hour: disableStartTimeHour!, minute: disableStartTimeMin!)),
+  //     start: TimeOfDay(
+  //         hour: int.parse(_openingTimeController.text.substring(0, 2)),
+  //         minute: int.parse(_openingTimeController.text.substring(3, 5))),
+  //     end: TimeOfDay(
+  //         hour: int.parse(_closingTimeController.text.substring(0, 2)),
+  //         minute: int.parse(_closingTimeController.text.substring(3, 5))),
+  //     strokeColor: primaryColor,
+  //     handlerColor: primaryColor,
+  //     selectedColor: primaryColor,
+  //     context: context,
+  //   );
+
+  //   setState(() {
+  //     if (result.toString().substring(17, 22) ==
+  //         result.toString().substring(37, 42)) {
+  //       ToastMsg.showToastMsg("please select different times");
+  //     } else {
+  //       _openingTimeController.text = result.toString().substring(17, 22);
+  //       _closingTimeController.text = result.toString().substring(37, 42);
+  //     }
+  //   });
+  // }
 }

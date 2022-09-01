@@ -8,9 +8,9 @@ import 'package:demoadmin/widgets/imageWidget.dart';
 import 'package:demoadmin/widgets/loadingIndicator.dart';
 import 'package:demoadmin/widgets/noDataWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:demoadmin/service/readData.dart';
-import 'package:demoadmin/utilities/appbars.dart';
 import 'package:demoadmin/utilities/colors.dart';
+
+import '../../utilities/appbars.dart';
 
 class AppointmentTypesPage extends StatefulWidget {
   @override

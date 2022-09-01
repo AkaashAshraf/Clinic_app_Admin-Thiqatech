@@ -25,55 +25,49 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  bool passValid = true;
-  String _clinicOpeningTime = "10:00";
-  String _clinicClosingTime = "20:00";
-  String _lunchOpeningTime = "13:00";
-  String _lunchClosingTime = "14:00";
-  bool _isLoading = false;
-  bool _stopBooking = false;
-  String _imageUrl = "";
-  List<Asset> _images = <Asset>[];
-  String _id = "";
-  List<String> deptList = ["Select Department"];
   List<String> deptIdList = [""];
-  String _selectedDeptId = "";
-  bool _isEnableBtn = true;
-  TextEditingController _deptNameController = TextEditingController();
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _descController = TextEditingController();
-  TextEditingController _subTitleController = TextEditingController();
-  TextEditingController _whatsAppNoController = TextEditingController();
-  TextEditingController _primaryPhnController = TextEditingController();
-  TextEditingController _secondaryPhnController = TextEditingController();
+  List<String> deptList = ["Select Department"];
+  bool passValid = true;
+
   TextEditingController _aboutUsController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
-  TextEditingController _hNameController = TextEditingController();
-  TextEditingController _launchOTCont = TextEditingController();
-  TextEditingController _launchCTCont = TextEditingController();
-  TextEditingController _serviceTime = TextEditingController();
   TextEditingController _appFeeCont = TextEditingController();
-  TextEditingController _passController = TextEditingController();
-  TextEditingController _confirmPassController = TextEditingController();
+  String _clinicClosingTime = "20:00";
   TextEditingController _clinicName = TextEditingController();
+  String _clinicOpeningTime = "10:00";
+  TextEditingController _confirmPassController = TextEditingController();
   List _dayCode = [];
+  TextEditingController _deptNameController = TextEditingController();
+  TextEditingController _descController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  bool _friCheckedValue = false;
+  TextEditingController _hNameController = TextEditingController();
+  String _id = "";
+  String _imageUrl = "";
+  List<Asset> _images = <Asset>[];
+  bool _isEnableBtn = true;
+  bool _isLoading = false;
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _launchCTCont = TextEditingController();
+  TextEditingController _launchOTCont = TextEditingController();
+  String _lunchClosingTime = "14:00";
+  String _lunchOpeningTime = "13:00";
   bool _monCheckedValue = false;
+  TextEditingController _passController = TextEditingController();
+  TextEditingController _primaryPhnController = TextEditingController();
+  bool _satCheckedValue = false;
+  TextEditingController _secondaryPhnController = TextEditingController();
+  String _selectedDeptId = "";
+  TextEditingController _serviceTime = TextEditingController();
+  bool _stopBooking = false;
+  TextEditingController _subTitleController = TextEditingController();
+  bool _sunCheckedValue = false;
+  bool _thuCheckedValue = false;
   bool _tueCheckedValue = false;
   bool _wedCheckedValue = false;
-  bool _thuCheckedValue = false;
-  bool _friCheckedValue = false;
-  bool _satCheckedValue = false;
-  bool _sunCheckedValue = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    _fetchUserDetails(); //get and set all initial values
-    super.initState();
-  }
+  TextEditingController _whatsAppNoController = TextEditingController();
 
   @override
   void dispose() {
@@ -94,105 +88,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        bottomNavigationBar: BottomNavBarWidget(
-          title: "Update",
-          onPressed: _takeConfirmation,
-          isEnableBtn: _isEnableBtn,
-        ),
-        appBar: IAppBars.commonAppBar(context, "Edit Profile"),
-        body: _isLoading
-            ? LoadingIndicatorWidget()
-            : Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    SizedBox(height: 20),
-                    if (_imageUrl == "")
-                      if (_images.length == 0)
-                        ECircularCameraIconWidget(onTap: _handleImagePicker)
-                      else
-                        ECircularImageWidget(
-                          onPressed: _removeImage,
-                          imageUrl: _imageUrl,
-                          images: _images,
-                        )
-                    else
-                      ECircularImageWidget(
-                        onPressed: _removeImage,
-                        imageUrl: _imageUrl,
-                        images: _images,
-                      ),
-                    InputFields.readableInputField(
-                        _clinicName, "Clinic Name", 1),
-                    _inputField(
-                        "First Name", "Enter first name", _firstNameController),
-                    _inputField(
-                        "Last Name", "Enter last name", _lastNameController),
-
-                    _inputField(
-                        "Subtitle", "Enter sub title", _subTitleController),
-                    _inputField(
-                        "Hospital Name", "Enter first name", _hNameController),
-                    _ammountFiled(),
-                    _serviceTimeInputField(),
-                    textField("Opening Time: $_clinicOpeningTime"),
-                    textField("Closing Time: $_clinicClosingTime"),
-                    luchTimetextField("Lunch Opening Time: $_lunchOpeningTime"),
-                    luchTimetextField("Lunch Closing Time: $_lunchClosingTime"),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            "Select any days where you want to close booking in every week",
-                            style: TextStyle(
-                              fontFamily: 'OpenSans-SemiBold',
-                              fontSize: 14,
-                            )),
-                      ),
-                    ),
-                    _buildDayCheckedBox("Monday", _monCheckedValue, 1),
-                    _buildDayCheckedBox("Tuesday", _tueCheckedValue, 2),
-                    _buildDayCheckedBox("Wednesday", _wedCheckedValue, 3),
-                    _buildDayCheckedBox("Thursday", _thuCheckedValue, 4),
-                    _buildDayCheckedBox("Friday", _friCheckedValue, 5),
-                    _buildDayCheckedBox("Saturday", _satCheckedValue, 6),
-                    _buildDayCheckedBox("Sunday", _sunCheckedValue, 7),
-                    // _inputField(
-                    //     "Launch opening time (HH:MM)", "Enter last name", _launchOTCont),
-                    // _inputField(
-                    //     "Launch closing time (HH:MM)", "Enter sub title", _launchCTCont),
-                    // deptList.length > 0
-                    //     ? _genderDropDown()
-                    //     : Container(
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.fromLTRB(20, 8, 10, 8),
-                    //     child: Text(
-                    //       "Please add department",
-                    //       style: TextStyle(color: Colors.red),
-                    //     ),
-                    //   ),
-                    // ),
-                    InputFields.readableInputField(
-                        _deptNameController, "Department", 1),
-                    _emailInputField(),
-                    passInputField(_passController, "Password"),
-                    confirmPassInputField(
-                        _confirmPassController, "Confirm Password"),
-                    _phnNumInputField(
-                        _primaryPhnController, "Enter primary phone number"),
-                    _phnNumInputField(_secondaryPhnController,
-                        "Enter secondary phone number"),
-                    _phnNumInputField(
-                        _whatsAppNoController, "Enter what'sapp phone number"),
-                    _descInputField(_addressController, "Address", null),
-                    _descInputField(_descController, "Description", null),
-                    _descInputField(_aboutUsController, "About us", null),
-                    _stopBookingWidget(),
-                  ],
-                ),
-              ));
+  void initState() {
+    // TODO: implement initState
+    _fetchUserDetails(); //get and set all initial values
+    super.initState();
   }
 
   Widget textField(String title) {
@@ -288,6 +187,91 @@ class _EditProfilePageState extends State<EditProfilePage> {
             )),
       ),
     );
+  }
+
+  Widget confirmPassInputField(controller, labelText) {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+        child: Column(
+          children: [
+            TextFormField(
+              obscureText: true,
+              controller: controller,
+              validator: (item) {
+                if (item!.length > 7 && item.length < 20) {
+                  if (item == _passController.text)
+                    return null;
+                  else
+                    return "Confirm password must be same with password";
+                } else {
+                  return "Enter confirm password";
+                }
+              },
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                  labelText: labelText,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[200]!),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: primaryColor, width: 1.0),
+                  )),
+            ),
+          ],
+        ));
+  }
+
+  Widget passInputField(controller, labelText) {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+        child: Column(
+          children: [
+            TextFormField(
+              obscureText: true,
+              controller: controller,
+              validator: (item) {
+                if (item!.length > 7 && item.length < 20) {
+                  String pattern =
+                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                  RegExp regExp = new RegExp(pattern);
+                  bool checkValid = regExp.hasMatch(item);
+                  if (checkValid)
+                    setState(() {
+                      passValid = true;
+                    });
+                  else
+                    setState(() {
+                      passValid = false;
+                    });
+
+                  return checkValid ? null : "Enter a valid password";
+                } else {
+                  return "length should be at least 8";
+                }
+              },
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                  labelText: labelText,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[200]!),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: primaryColor, width: 1.0),
+                  )),
+            ),
+            !passValid ? SizedBox(height: 8) : Container(),
+            !passValid
+                ? Text(
+                    "Password length should be greater then 8 and Minimum 1 Upper case, 1 lowercase,1 Numeric Number",
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  )
+                : Container(),
+          ],
+        ));
+  }
+
+  String generateMd5(String input) {
+    return md5.convert(utf8.encode(input)).toString();
   }
 
   _serviceTimeInputField() {
@@ -447,38 +431,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget confirmPassInputField(controller, labelText) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-        child: Column(
-          children: [
-            TextFormField(
-              obscureText: true,
-              controller: controller,
-              validator: (item) {
-                if (item!.length > 7 && item.length < 20) {
-                  if (item == _passController.text)
-                    return null;
-                  else
-                    return "Confirm password must be same with password";
-                } else {
-                  return "Enter confirm password";
-                }
-              },
-              keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(
-                  labelText: labelText,
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[200]!),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor, width: 1.0),
-                  )),
-            ),
-          ],
-        ));
-  }
-
   Widget _stopBookingWidget() {
     return ListTile(
       title: Text("online booking"),
@@ -504,55 +456,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         },
       ),
     );
-  }
-
-  Widget passInputField(controller, labelText) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-        child: Column(
-          children: [
-            TextFormField(
-              obscureText: true,
-              controller: controller,
-              validator: (item) {
-                if (item!.length > 7 && item.length < 20) {
-                  String pattern =
-                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-                  RegExp regExp = new RegExp(pattern);
-                  bool checkValid = regExp.hasMatch(item);
-                  if (checkValid)
-                    setState(() {
-                      passValid = true;
-                    });
-                  else
-                    setState(() {
-                      passValid = false;
-                    });
-
-                  return checkValid ? null : "Enter a valid password";
-                } else {
-                  return "length should be at least 8";
-                }
-              },
-              keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(
-                  labelText: labelText,
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[200]!),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor, width: 1.0),
-                  )),
-            ),
-            !passValid ? SizedBox(height: 8) : Container(),
-            !passValid
-                ? Text(
-                    "Password length should be greater then 8 and Minimum 1 Upper case, 1 lowercase,1 Numeric Number",
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  )
-                : Container(),
-          ],
-        ));
   }
 
   _takeConfirmation() {
@@ -720,10 +623,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
   }
 
-  String generateMd5(String input) {
-    return md5.convert(utf8.encode(input)).toString();
-  }
-
   void _fetchUserDetails() async {
     setState(() {
       _isLoading = true;
@@ -825,5 +724,107 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        bottomNavigationBar: BottomNavBarWidget(
+          title: "Update",
+          onPressed: _takeConfirmation,
+          isEnableBtn: _isEnableBtn,
+        ),
+        appBar: IAppBars.commonAppBar(context, "Edit Profile"),
+        body: _isLoading
+            ? LoadingIndicatorWidget()
+            : Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    SizedBox(height: 20),
+                    if (_imageUrl == "")
+                      if (_images.length == 0)
+                        ECircularCameraIconWidget(onTap: _handleImagePicker)
+                      else
+                        ECircularImageWidget(
+                          onPressed: _removeImage,
+                          imageUrl: _imageUrl,
+                          images: _images,
+                        )
+                    else
+                      ECircularImageWidget(
+                        onPressed: _removeImage,
+                        imageUrl: _imageUrl,
+                        images: _images,
+                      ),
+                    InputFields.readableInputField(
+                        _clinicName, "Clinic Name", 1),
+                    _inputField(
+                        "First Name", "Enter first name", _firstNameController),
+                    _inputField(
+                        "Last Name", "Enter last name", _lastNameController),
+
+                    _inputField(
+                        "Subtitle", "Enter sub title", _subTitleController),
+                    _inputField(
+                        "Hospital Name", "Enter first name", _hNameController),
+                    _ammountFiled(),
+                    _serviceTimeInputField(),
+                    textField("Opening Time: $_clinicOpeningTime"),
+                    textField("Closing Time: $_clinicClosingTime"),
+                    luchTimetextField("Lunch Opening Time: $_lunchOpeningTime"),
+                    luchTimetextField("Lunch Closing Time: $_lunchClosingTime"),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "Select any days where you want to close booking in every week",
+                            style: TextStyle(
+                              fontFamily: 'OpenSans-SemiBold',
+                              fontSize: 14,
+                            )),
+                      ),
+                    ),
+                    _buildDayCheckedBox("Monday", _monCheckedValue, 1),
+                    _buildDayCheckedBox("Tuesday", _tueCheckedValue, 2),
+                    _buildDayCheckedBox("Wednesday", _wedCheckedValue, 3),
+                    _buildDayCheckedBox("Thursday", _thuCheckedValue, 4),
+                    _buildDayCheckedBox("Friday", _friCheckedValue, 5),
+                    _buildDayCheckedBox("Saturday", _satCheckedValue, 6),
+                    _buildDayCheckedBox("Sunday", _sunCheckedValue, 7),
+                    // _inputField(
+                    //     "Launch opening time (HH:MM)", "Enter last name", _launchOTCont),
+                    // _inputField(
+                    //     "Launch closing time (HH:MM)", "Enter sub title", _launchCTCont),
+                    // deptList.length > 0
+                    //     ? _genderDropDown()
+                    //     : Container(
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.fromLTRB(20, 8, 10, 8),
+                    //     child: Text(
+                    //       "Please add department",
+                    //       style: TextStyle(color: Colors.red),
+                    //     ),
+                    //   ),
+                    // ),
+                    InputFields.readableInputField(
+                        _deptNameController, "Department", 1),
+                    _emailInputField(),
+                    passInputField(_passController, "Password"),
+                    confirmPassInputField(
+                        _confirmPassController, "Confirm Password"),
+                    _phnNumInputField(
+                        _primaryPhnController, "Enter primary phone number"),
+                    _phnNumInputField(_secondaryPhnController,
+                        "Enter secondary phone number"),
+                    _phnNumInputField(
+                        _whatsAppNoController, "Enter what'sapp phone number"),
+                    _descInputField(_addressController, "Address", null),
+                    _descInputField(_descController, "Description", null),
+                    _descInputField(_aboutUsController, "About us", null),
+                    _stopBookingWidget(),
+                  ],
+                ),
+              ));
   }
 }
