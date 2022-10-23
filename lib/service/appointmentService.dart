@@ -66,12 +66,12 @@ class AppointmentService {
     // final typeRes = convertArrayToString(selectedType);
     final response = await http.get(Uri.parse(
         "$_viewUrlByDoctID?status=$res&firstDate=$firstDate&lastDate=$lastDate&limit=$limit&doctId=$doctId"));
-    log('doctor appoint get url: ' + '$_viewUrlByDoctID?status=$res&firstDate=$firstDate&lastDate=$lastDate&limit=$limit&doctId=$doctId');
+    log('doctor appoint get url: ' +
+        '$_viewUrlByDoctID?status=$res&firstDate=$firstDate&lastDate=$lastDate&limit=$limit&doctId=$doctId');
     if (response.statusCode == 200) {
       List<AppointmentModel> list = dataFromJson(response.body);
       return list;
     } else {
-      
       return []; //if any error occurs then it return a blank list
     }
   }
@@ -92,8 +92,7 @@ class AppointmentService {
     // final typeRes = convertArrayToString(selectedType);
     print(firstDate);
     print(lastDate);
-    print(
-        "$_viewUrl?status=$res&doctList=$resDoct&firstDate=$firstDate&lastDate=$lastDate&limit=$limit");
+    log("-------------$_viewUrl?status=$res&doctList=$resDoct&firstDate=$firstDate&lastDate=$lastDate&limit=$limit");
     final response = await http.get(Uri.parse(
         "$_viewUrl?status=$res&doctList=$resDoct&firstDate=$firstDate&lastDate=$lastDate&limit=$limit"));
 

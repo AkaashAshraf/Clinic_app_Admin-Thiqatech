@@ -1,5 +1,6 @@
 import 'package:demoadmin/utilities/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InputFields {
   static Widget commonInputField(
@@ -11,6 +12,30 @@ class InputFields {
         controller: controller,
         validator: validator,
         keyboardType: keyboardType,
+        decoration: InputDecoration(
+            labelText: labelText,
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey[200]!),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: primaryColor, width: 1.0),
+            )),
+      ),
+    );
+  }
+
+  static Widget onlyDigitInputField(
+      controller, labelText, validator, keyboardType, maxLines) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      child: TextFormField(
+        maxLines: maxLines,
+        controller: controller,
+        validator: validator,
+        keyboardType: keyboardType,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+        ],
         decoration: InputDecoration(
             labelText: labelText,
             enabledBorder: UnderlineInputBorder(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:demoadmin/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
@@ -55,6 +56,7 @@ class PrescriptionService {
   }
 
   static Future addData(PrescriptionModel prescriptionModel) async {
+    log('----------${prescriptionModel.toJsonAdd()}');
     final response = await http.post(Uri.parse(_addUrl),
         body: prescriptionModel.toJsonAdd());
     print(response.body);

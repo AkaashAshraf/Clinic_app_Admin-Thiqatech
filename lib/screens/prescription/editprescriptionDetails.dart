@@ -46,7 +46,7 @@ class _PrescriptionDetailsPageState extends State<PrescriptionDetailsPage> {
     setState(() {
       _serviceNameController.text = widget.prescriptionDetails.appointmentName;
       _patientNameController.text = widget.prescriptionDetails.patientName;
-      _drNameController.text = widget.prescriptionDetails.drName;
+      _drNameController.text = 'Talib Al-Rashdi';
       _dateController.text = widget.prescriptionDetails.appointmentDate;
       _timeController.text = widget.prescriptionDetails.appointmentTime;
       _messageController.text = widget.prescriptionDetails.prescription;
@@ -94,7 +94,7 @@ class _PrescriptionDetailsPageState extends State<PrescriptionDetailsPage> {
 
         PrescriptionModel prescriptionModel = PrescriptionModel(
             id: widget.prescriptionDetails.id,
-            drName: _drNameController.text,
+            drName: widget.prescriptionDetails.drName,
             patientName: _patientNameController.text,
             imageUrl: imageUrl,
             prescription: _messageController.text);
@@ -208,7 +208,7 @@ class _PrescriptionDetailsPageState extends State<PrescriptionDetailsPage> {
 
           PrescriptionModel prescriptionModel = PrescriptionModel(
               id: widget.prescriptionDetails.id,
-              drName: _drNameController.text,
+              drName: widget.prescriptionDetails.drName,
               patientName: _patientNameController.text,
               imageUrl: imageUrl,
               prescription: _messageController.text);
@@ -270,10 +270,8 @@ class _PrescriptionDetailsPageState extends State<PrescriptionDetailsPage> {
                       _patientNameController, "Patient Name", (item) {
                     return item.length > 0 ? null : "Enter patient name";
                   }, TextInputType.text, 1),
-                  InputFields.commonInputField(_drNameController, "Dr Name",
-                      (item) {
-                    return item.length > 0 ? null : "Enter Dr name";
-                  }, TextInputType.text, 1),
+                  InputFields.readableInputField(
+                      _drNameController, "Dr Name", 1),
                   InputFields.readableInputField(_dateController, "Date", 1),
                   InputFields.readableInputField(_timeController, "Time", 1),
                   InputFields.commonInputField(_messageController, "Message",

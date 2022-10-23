@@ -5,12 +5,10 @@ import 'package:demoadmin/model/itemModel.dart';
 import 'package:demoadmin/service/categoryService.dart';
 import 'package:demoadmin/service/itemService.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 import '../../model/categoryModel.dart';
 import '../../utilities/appbars.dart';
 import '../../utilities/colors.dart';
-import '../../utilities/imagePicker.dart';
 import '../../utilities/inputField.dart';
 import '../../utilities/toastMsg.dart';
 import '../../widgets/bottomNavigationBarWidget.dart';
@@ -245,7 +243,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }, TextInputType.text, 1);
   }
 
-    Widget _titleArInputField() {
+  Widget _titleArInputField() {
     return InputFields.commonInputField(_nameArController, "Name Ar*", (item) {
       return item.length > 0 ? null : "Enter name in Arabic";
     }, TextInputType.text, 1);
@@ -259,9 +257,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget _minimumQuantityInputField() {
-    return InputFields.commonInputField(_minQtyController, "Minimum Quantity*",
-        (item) {
-      return item.length > 0 ? null : "Enter name";
+    return InputFields.onlyDigitInputField(_minQtyController, "Stock*", (item) {
+      return item.length > 0 ? null : "Enter stock";
     }, TextInputType.number, 1);
   }
 
@@ -300,12 +297,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget _detailInputField() {
-    return InputFields.commonInputField(_detailController, "Detail En*", (item) {
+    return InputFields.commonInputField(_detailController, "Detail En*",
+        (item) {
       return item.length > 0 ? null : "Enter Detail in English";
     }, TextInputType.text, 3);
   }
+
   Widget _detailArInputField() {
-    return InputFields.commonInputField(_detailArController, "Detail Ar*", (item) {
+    return InputFields.commonInputField(_detailArController, "Detail Ar*",
+        (item) {
       return item.length > 0 ? null : "Enter Detail in Arabic";
     }, TextInputType.text, 3);
   }
@@ -502,8 +502,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final detailAr = _detailArController.text;
     final detail = _detailController.text;
     final price = _uPriceController.text;
-    final response = await ItemService.updateData(
-        name, qty, widget.item!.id, updateImages, ids, nameAr, detailAr, detail,price );
+    final response = await ItemService.updateData(name, qty, widget.item!.id,
+        updateImages, ids, nameAr, detailAr, detail, price);
     if (response.toString().contains('success')) {
       // if (_sendNotification) {
       //   _handleSendNotification();
@@ -544,8 +544,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
     }
     final List<String> ids = _selectedCategories.map((e) => e.id).toList();
-    final uploadData =
-        await ItemService.addData(name, qty, updateImages, ids, detail, price, nameAr, detailAr);
+    final uploadData = await ItemService.addData(
+        name, qty, updateImages, ids, detail, price, nameAr, detailAr);
     if (uploadData.toString().contains("success")) {
       // if (_sendNotification) {
       //   _handleSendNotification();

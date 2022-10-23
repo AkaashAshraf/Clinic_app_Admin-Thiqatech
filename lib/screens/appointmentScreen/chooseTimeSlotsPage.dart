@@ -25,6 +25,7 @@ class ChooseTimeSlotsPage extends StatefulWidget {
   final uId;
   final uName;
   final serviceName;
+  final serviceNameAr;
   final doctId;
   const ChooseTimeSlotsPage(
       {Key? key,
@@ -34,6 +35,7 @@ class ChooseTimeSlotsPage extends StatefulWidget {
       this.uId,
       this.uName,
       this.serviceName,
+      this.serviceNameAr,
       this.doctId})
       : super(key: key);
   @override

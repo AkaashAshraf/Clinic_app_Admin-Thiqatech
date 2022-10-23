@@ -89,7 +89,7 @@ class _EditAppointmentDetailsPageState
         widget.appointmentDetails.serviceName == "Online"
             ? "Video Consultation"
             : "Hospital Visit";
-    _doctNameController.text = widget.appointmentDetails.doctName;
+    _doctNameController.text = 'Talib Al-Rashdi';
     _serviceTimeController.text =
         widget.appointmentDetails.serviceTimeMin.toString();
     _appointmentIdController.text = widget.appointmentDetails.id;
@@ -166,6 +166,7 @@ class _EditAppointmentDetailsPageState
                 time: widget.appointmentDetails.appointmentTime,
                 date: widget.appointmentDetails.appointmentDate,
                 serviceName: widget.appointmentDetails.serviceName,
+                serviceNameAr: widget.appointmentDetails.serviceNameAr,
               )),
     );
   }
@@ -646,6 +647,7 @@ class _EditAppointmentDetailsPageState
           uId: widget.appointmentDetails.uId,
           uName: "${widget.appointmentDetails.uName}",
           serviceName: widget.appointmentDetails.serviceName,
+          serviceNameAr: widget.appointmentDetails.serviceNameAr,
           doctId: widget.appointmentDetails.doctId,
         ),
       ),

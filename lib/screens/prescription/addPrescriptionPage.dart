@@ -22,6 +22,7 @@ class AddPrescriptionPage extends StatefulWidget {
   final drName;
   final title;
   final serviceName;
+  final serviceNameAr;
   final patientName;
   final date;
   final time;
@@ -32,6 +33,7 @@ class AddPrescriptionPage extends StatefulWidget {
       @required this.title,
       @required this.patientName,
       @required this.serviceName,
+      @required this.serviceNameAr,
       @required this.date,
       @required this.time,
       @required this.appointmentId,
@@ -61,7 +63,7 @@ class _AddPrescriptionPageState extends State<AddPrescriptionPage> {
     setState(() {
       _serviceNameController.text = widget.serviceName;
       _patientNameController.text = widget.patientName;
-      _drNameController.text = widget.drName;
+      _drNameController.text = 'Talib Al-Rashdi';
       _dateController.text = widget.date;
       _timeController.text = widget.time;
     });
@@ -110,7 +112,8 @@ class _AddPrescriptionPageState extends State<AddPrescriptionPage> {
             appointmentTime: widget.time,
             appointmentDate: widget.date,
             appointmentName: widget.serviceName,
-            drName: _drNameController.text,
+            appointmentNameAr: widget.serviceNameAr,
+            drName: widget.drName,
             patientName: _patientNameController.text,
             imageUrl: imageUrl,
             prescription: _messageController.text);
@@ -226,7 +229,8 @@ class _AddPrescriptionPageState extends State<AddPrescriptionPage> {
               appointmentTime: widget.time,
               appointmentDate: widget.date,
               appointmentName: widget.serviceName,
-              drName: _drNameController.text,
+              appointmentNameAr: widget.serviceNameAr,
+              drName: widget.drName,
               patientName: _patientNameController.text,
               imageUrl: imageUrl,
               prescription: _messageController.text);
@@ -285,10 +289,8 @@ class _AddPrescriptionPageState extends State<AddPrescriptionPage> {
                       _patientNameController, "Patient Name", (item) {
                     return item.length > 0 ? null : "Enter patient name";
                   }, TextInputType.text, 1),
-                  InputFields.commonInputField(_drNameController, "Dr Name",
-                      (item) {
-                    return item.length > 0 ? null : "Enter Dr name";
-                  }, TextInputType.text, 1),
+                  InputFields.readableInputField(
+                      _drNameController, "Dr Name", 1),
                   InputFields.readableInputField(_dateController, "Date", 1),
                   InputFields.readableInputField(_timeController, "Time", 1),
                   InputFields.commonInputField(_messageController, "Message",

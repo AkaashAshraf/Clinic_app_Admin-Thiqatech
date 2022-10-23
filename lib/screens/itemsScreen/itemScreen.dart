@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:demoadmin/model/itemModel.dart';
@@ -22,13 +21,10 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-
   ScrollController _scrollController = new ScrollController();
   int _itemLength = 0;
 
   bool _isLoading = false;
-
-
 
   int? _loadingIndex;
 
@@ -41,7 +37,10 @@ class _ItemScreenState extends State<ItemScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddItemScreen(isUpdate: false,)),
+            MaterialPageRoute(
+                builder: (context) => AddItemScreen(
+                      isUpdate: false,
+                    )),
             // MaterialPageRoute(builder: (context) => NewBlogPostPage()),
           );
         },
@@ -49,24 +48,24 @@ class _ItemScreenState extends State<ItemScreen> {
       ),
       body: Container(
           child: FutureBuilder(
-              future:
-              ItemService.getData(), //fetch all service details
+              future: ItemService.getData(), //fetch all service details
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData)
                   return snapshot.data.length == 0
                       ? NoDataWidget()
                       : _buildListView(snapshot.data);
-                else if (snapshot.hasError)
-                  return IErrorWidget(); //if any error then you can also use any other widget here
+                else if (snapshot.hasError) {
+                  log(snapshot.error.toString());
+                  return IErrorWidget();
+                }
+                //if any error then you can also use any other widget here
                 else
                   return LoadingIndicatorWidget();
               })),
     );
   }
 
-
   Widget _buildListView(List<ItemModel> items) {
-
     _itemLength = items.length;
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
@@ -92,16 +91,15 @@ class _ItemScreenState extends State<ItemScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => AddItemScreen(
-                              isUpdate: true,
-                              item: items[index],
-                            )),
+                                  isUpdate: true,
+                                  item: items[index],
+                                )),
                       );
                     },
                     child: ListTile(
                       contentPadding:
-                      EdgeInsets.only(left: 5, right: 5, top: 0),
+                          EdgeInsets.only(left: 5, right: 5, top: 0),
                       leading: imageBox('https://talibcenter.com/$thumbnail'),
-
 
                       title: Text(
                         "${items[index].name}",
@@ -132,9 +130,13 @@ class _ItemScreenState extends State<ItemScreen> {
                           //     Text("${items[index]}"),
                           //   ],
                           // )]),
-                          _loadingIndex == index && _isLoading ? LoadingIndicatorWidget(): IconButton(onPressed: () {
-                            _handleDelete(items[index], index);
-                          }, icon: Icon(Icons.delete_outline_outlined)),
+                          _loadingIndex == index && _isLoading
+                              ? LoadingIndicatorWidget()
+                              : IconButton(
+                                  onPressed: () {
+                                    _handleDelete(items[index], index);
+                                  },
+                                  icon: Icon(Icons.delete_outline_outlined)),
                         ],
                       ),
                       //  isThreeLine: true,
@@ -167,8 +169,7 @@ class _ItemScreenState extends State<ItemScreen> {
       _loadingIndex = index;
     });
 
-    final res = await ItemService.deleteData(
-        item.id);
+    final res = await ItemService.deleteData(item.id);
     if (res == "success") {
       ToastMsg.showToastMsg("Successfully Deleted");
       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -179,6 +180,4 @@ class _ItemScreenState extends State<ItemScreen> {
       _isLoading = false;
     });
   }
-
-
 }

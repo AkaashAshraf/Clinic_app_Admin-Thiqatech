@@ -16,6 +16,7 @@ class PrescriptionListByIDPage extends StatefulWidget {
   final date;
   final time;
   final serviceName;
+  final serviceNameAr;
   PrescriptionListByIDPage(
       {this.drName,
       this.appointmentId,
@@ -23,6 +24,7 @@ class PrescriptionListByIDPage extends StatefulWidget {
       this.patientName,
       this.time,
       this.serviceName,
+      this.serviceNameAr,
       this.date});
   @override
   _PrescriptionListByIDPageState createState() =>
@@ -55,6 +57,7 @@ class _PrescriptionListByIDPageState extends State<PrescriptionListByIDPage> {
                         title: "Add New Prescription",
                         patientName: widget.patientName,
                         serviceName: widget.serviceName,
+                        serviceNameAr: widget.serviceNameAr,
                         date: widget.date,
                         time: widget.time,
                         appointmentId: widget.appointmentId,
