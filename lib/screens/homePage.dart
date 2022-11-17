@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:demoadmin/service/Notification/handleLocalNotification.dart';
 import 'package:demoadmin/utilities/colors.dart';
 import 'package:demoadmin/widgets/buttonsWidget.dart';
@@ -77,7 +75,7 @@ class _HomePageState extends State<HomePage> {
     // {
     //   "iconName": "assets/icons/doct.svg",
     //   "title": "Profile",
-    //   "navigation": "/EditProfilePage"  
+    //   "navigation": "/EditProfilePage"
     // },
 
     // {
@@ -112,11 +110,11 @@ class _HomePageState extends State<HomePage> {
       "title": "Types",
       "navigation": "/AppointmentTypesPage"
     },
-    {
-      "iconName": "assets/icons/booking.svg",
-      "title": "Setting",
-      "navigation": "/EditBookingTiming"
-    },
+    // {
+    //   "iconName": "assets/icons/booking.svg",
+    //   "title": "Setting",
+    //   "navigation": "/EditBookingTiming"
+    // },
     {
       "iconName": "assets/icons/group.svg",
       "title": "Users",
@@ -205,8 +203,10 @@ class _HomePageState extends State<HomePage> {
                     : SizedBox(
                         height: 50,
                         width: 50,
-                        child: _widgetsList[index]["iconName"].contains('svg') ? SvgPicture.asset(_widgetsList[index]["iconName"],
-                            semanticsLabel: 'Acme Logo') : Image.asset(_widgetsList[index]["iconName"]),
+                        child: _widgetsList[index]["iconName"].contains('svg')
+                            ? SvgPicture.asset(_widgetsList[index]["iconName"],
+                                semanticsLabel: 'Acme Logo')
+                            : Image.asset(_widgetsList[index]["iconName"]),
                       ),
                 SizedBox(height: 20),
                 Text(
