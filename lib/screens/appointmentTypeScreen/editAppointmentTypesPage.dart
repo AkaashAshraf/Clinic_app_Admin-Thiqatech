@@ -9,6 +9,7 @@ import 'package:demoadmin/widgets/boxWidget.dart';
 import 'package:demoadmin/widgets/buttonsWidget.dart';
 import 'package:demoadmin/widgets/loadingIndicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:demoadmin/utilities/appbars.dart';
 import 'package:demoadmin/utilities/colors.dart';
@@ -401,7 +402,7 @@ class _EditAppointmentTypesState extends State<EditAppointmentTypes> {
         return "Enter valid time";
       else
         return null;
-    }, TextInputType.number, 1);
+    }, TextInputType.number, 1, [FilteringTextInputFormatter.digitsOnly]);
   }
 
   Widget _timingInputField(title, controller, bool opening) {
@@ -429,10 +430,16 @@ class _EditAppointmentTypesState extends State<EditAppointmentTypes> {
     final newTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: 7, minute: 15),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child ?? Container(),
+        );
+      },
     );
     setState(() {
       _openingTimeController.text =
-          newTime == null ? '' : newTime.format(context);
+          newTime == null ? '' : "${newTime.hour}:${newTime.minute}";
     });
   }
 
@@ -440,10 +447,16 @@ class _EditAppointmentTypesState extends State<EditAppointmentTypes> {
     final newTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: 7, minute: 15),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child ?? Container(),
+        );
+      },
     );
     setState(() {
       _closingTimeController.text =
-          newTime == null ? '' : newTime.format(context);
+          newTime == null ? '' : "${newTime.hour}:${newTime.minute}";
     });
   }
 

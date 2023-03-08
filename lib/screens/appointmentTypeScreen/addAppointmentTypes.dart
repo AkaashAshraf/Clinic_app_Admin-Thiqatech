@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:demoadmin/model/appointmentTypeModel.dart';
 import 'package:demoadmin/service/appointmentTypeService.dart';
 import 'package:demoadmin/service/uploadImageService.dart';
@@ -12,6 +14,7 @@ import 'package:demoadmin/utilities/colors.dart';
 import 'package:demoadmin/utilities/dialogBox.dart';
 import 'package:demoadmin/utilities/imagePicker.dart';
 import 'package:demoadmin/utilities/toastMsg.dart';
+import 'package:flutter/services.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class AddAppointmentTypesPage extends StatefulWidget {
@@ -387,7 +390,7 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
         return "Enter valid time";
       else
         return null;
-    }, TextInputType.number, 1);
+    }, TextInputType.number, 1, [FilteringTextInputFormatter.digitsOnly]);
   }
 
   Widget _timingInputField(title, controller, bool openingTime) {
@@ -415,21 +418,35 @@ class _AddAppointmentTypesPageState extends State<AddAppointmentTypesPage> {
     final newTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: 7, minute: 15),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child ?? Container(),
+        );
+      },
     );
     setState(() {
       _openingTimeController.text =
-          newTime == null ? '' : newTime.format(context);
+          newTime == null ? '' : "${newTime.hour}:${newTime.minute}";
     });
   }
 
   void _closeTimePicker() async {
+    log('newTime.toString(): ');
     final newTime = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay(hour: 7, minute: 15),
+      initialTime: TimeOfDay(hour: 18, minute: 15),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child ?? Container(),
+        );
+      },
     );
+
     setState(() {
       _closingTimeController.text =
-          newTime == null ? '' : newTime.format(context);
+          newTime == null ? '' : "${newTime.hour}:${newTime.minute}";
     });
   }
 

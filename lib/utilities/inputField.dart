@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 
 class InputFields {
   static Widget commonInputField(
-      controller, labelText, validator, keyboardType, maxLines) {
+      controller, labelText, validator, keyboardType, maxLines,
+      [List<TextInputFormatter>? inputFormatters]) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: TextFormField(
@@ -12,6 +13,7 @@ class InputFields {
         controller: controller,
         validator: validator,
         keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
         decoration: InputDecoration(
             labelText: labelText,
             enabledBorder: UnderlineInputBorder(
